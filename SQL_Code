@@ -1,0 +1,57 @@
+-- 1. average price per bedroom
+
+
+SELECT
+	CAST(bedrooms AS INT) AS bedrooms,
+	((AVG(CAST(price AS INT)))/bedrooms) AS average_price
+FROM PortfolioProjectAirbnb..listings
+WHERE host_location IS NOT NULL
+	AND host_location LIKE '%NV'
+	AND bedrooms IS NOT NULL
+GROUP BY bedrooms
+--ORDER BY bedrooms DESC;
+ORDER BY average_price DESC;
+
+-- 2. average per person/accommodates
+
+SELECT
+	(CAST(accommodates AS INT)) AS num_of_persons,
+	((AVG(CAST(price AS INT)))/accommodates) AS average_price
+FROM PortfolioProjectAirbnb..listings
+WHERE host_location IS NOT NULL
+	AND host_location LIKE '%NV'
+	AND accommodates IS NOT NULL
+GROUP BY accommodates
+--ORDER BY num_of_persons DESC;
+ORDER BY average_price DESC;
+
+
+-- 3. average price per room type
+
+SELECT
+	room_type,
+	AVG(CAST(price AS INT)) AS average_price
+FROM PortfolioProjectAirbnb..listings
+WHERE host_location IS NOT NULL
+	AND host_location LIKE '%NV'
+	AND accommodates IS NOT NULL
+GROUP BY room_type
+ORDER BY average_price DESC;
+
+
+
+
+-- 4. average price per host location
+
+SELECT
+	host_location,
+	AVG(CAST(price AS INT)) AS average_price,
+	latitude,
+	longitude
+FROM PortfolioProjectAirbnb..listings
+WHERE host_location IS NOT NULL
+	AND host_location LIKE '%NV'
+	--AND host_location LIKE 'Summerlin South%'
+	--AND host_location LIKE 'Reno%'
+GROUP BY host_location, latitude,longitude
+ORDER BY average_price DESC;
